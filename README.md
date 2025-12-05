@@ -67,16 +67,19 @@ public class Election {
     private Candidate[] candidates;
     private int count;
 
+    // создание процесса выборов по умолчанию
     public Election(){
         candidates = new Candidate[10];
         count = 0;
     }
 
+    // создание процесса выборов с заданным количеством кандидатов
     public Election(int total){
         candidates = new Candidate[total];
         count = 0;
     }
 
+    // закрытый метод, изменяющий длину массива при добавлении и удалении кандидатов
     private void setlist(){
         if (count >= candidates.length) {
             Candidate[] m = new Candidate[count*2];
@@ -86,7 +89,7 @@ public class Election {
             candidates = m;
         }
     }
-
+    // вывод кандидатов, участвующих в выборах, с их голосами
     public void coutCandidates(){
         if (count == 0) System.out.println("Список кандидатов пуст");
         else {
@@ -95,7 +98,7 @@ public class Election {
             }
         }
     }
-
+    // добавление кандидата в выборы по умолчанию
     public void addCandidate(String name){
         if(findIndex(name)!=-1) System.out.println("Кандидат уже принимает участие");
         else {
@@ -105,6 +108,7 @@ public class Election {
             System.out.println("Кандидат " + name + " добавлен. Проголосовавших: " + 0);
         }
     }
+    // добавление кандидата в выборы с заданным количеством голосов
     public void addCandidate(String name, int votes){
         if(findIndex(name)!=-1) System.out.println("Кандидат уже принимает участие");
         else {
@@ -115,7 +119,7 @@ public class Election {
         }
     }
 
-
+    // поиск индекса кандидата по имени среди участвующих в выборах
     public int findIndex(String name){
         for (int i = 0; i < count; i++) {
             if(candidates[i].getName() == name){
@@ -124,7 +128,7 @@ public class Election {
         }
         return -1;
     }
-
+    // удаление кандидата, участвующего в выборах, из выборов
     public void removeCandidate(String name){
         int ind = findIndex(name);
         if(ind == -1) System.out.println("Кандидат с таким именем не найден");
@@ -137,6 +141,7 @@ public class Election {
             setlist();
         }
     }
+    // добавление голоса кандидату, участвующему в выборах
     public void addVoteToCandidate(String name){
         int ind = findIndex(name);
         if(ind == -1) System.out.println("Кандидат с таким именем не найден");
@@ -144,6 +149,7 @@ public class Election {
             candidates[ind].addVote();
         }
     }
+    // добавление заданного количества голосов кандидату, участвующему в выборах
     public void addVotesToCandidate(String name, int votes){
         int ind = findIndex(name);
         if(ind == -1) System.out.println("Кандидат с таким именем не найден");
@@ -151,7 +157,7 @@ public class Election {
             candidates[ind].addVotes(votes);
         }
     }
-
+    // получение голосов кандидата, участвующего в выборах
     public int getCandidatesVotes(String name){
         int ind = findIndex(name);
         if(ind == -1) {
@@ -160,7 +166,7 @@ public class Election {
         }
         return candidates[ind].getVotes();
     }
-
+    // подсчёт и получение общего количества людей, которые голосовали.
     public int getTotalVotes(){
         int n = 0;
         for (int i = 0; i < count; i++) {
@@ -168,7 +174,7 @@ public class Election {
         }
         return n;
     }
-
+    // подсчет итогов выборов среди участвующих кандидатов
     public Candidate getWinnerOfElection(){
         if(count == 0) return null;
         Candidate winner = candidates[0];
@@ -177,7 +183,7 @@ public class Election {
         }
         return winner;
     }
-
+    // полдсчет и получение проценного количества людей, проголосовавших за кандидата, относительно всех голосов
     public double getResCandidate(String name){
         int ind = findIndex(name);
         if(ind == -1) {
@@ -188,7 +194,7 @@ public class Election {
         if(total == 0) return 0.0;
         return candidates[ind].percents(total);
     }
-
+    // вывод таблицы кандидатов с их рейтингом в этих выборах
     public void coutPercents(){
         int total = getTotalVotes();
         if(count == 0) System.out.println("Список кандидатов пуст");
@@ -201,7 +207,7 @@ public class Election {
             System.out.println("Всего голосов: " + total);
         }
     }
-
+    // удаление кандидатов, участвующих в выборах и не набравших определенного количества голосов
     public void removeLosers(int needvotes){
         int rcount = 0;
         for (int i = count - 1; i >= 0 ; i--) {
@@ -212,7 +218,7 @@ public class Election {
         }
         System.out.println("Количество удаленных кандидатов: " + rcount);
     }
-
+    // "процесс подсчета бюллетеней"
     public void bullitens(String[] names){
         for (int i = 0; i < names.length; i++) {
             int ind = findIndex(names[i]);
