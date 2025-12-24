@@ -250,12 +250,23 @@ public class Election {
     }
     // подсчет итогов выборов среди участвующих кандидатов
     public Candidate getWinnerOfElection() {
-        if (count == 0) return null;
+        if (count == 0) {
+            System.out.println("Нет кандидатов для подведения итогов выборов");
+            return null;
+        }
         Candidate winner = candidates[0];
         for (int i = 0; i < count; i++) {
             if (candidates[i].getVotes() > winner.getVotes()) winner = candidates[i];
         }
-        return winner;
+        int k = 0;
+        for (int i = 0; i < count; i++) {
+            if(candidates[i].getVotes() == winner.getVotes())k++;
+        }
+        if(k==1) return winner;
+        else {
+            System.out.println("Определить победителя нельзя, одинаковое количество голосов у участников у двух или более участников");
+            return null;
+        }
     }
     // полдсчет и получение проценного количества людей, проголосовавших за кандидата, относительно всех голосов
     public double getResCandidate(String name){
