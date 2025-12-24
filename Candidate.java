@@ -9,7 +9,11 @@ public class Candidate {
     // создание кандидата с заданным количеством голосов
     public Candidate(String name, int votes){
         this.name = name;
-        this.votes = votes;
+        if(votes >= 0){
+            this.votes = votes;
+        } else {
+            this.votes = 0;
+        }
     }
     // добавление кандидату 1 голоса
     public void addVote(){
@@ -17,7 +21,9 @@ public class Candidate {
     }
     // добавление кандидату n голосов
     public void addVotes(int votes){
-        this.votes+=votes;
+        if(votes >= 0){
+            this.votes+=votes;
+        }
     }
     // получение голосов кандидата
     public int getVotes(){
