@@ -56,9 +56,9 @@ public class Election {
     }
 
     // поиск индекса кандидата по имени среди участвующих в выборах
-    public int findIndex(String name){
+    public int findIndex(String name) {
         for (int i = 0; i < count; i++) {
-            if(candidates[i].getName() == name){
+            if (candidates[i].getName().equals(name)) {
                 return i;
             }
         }
