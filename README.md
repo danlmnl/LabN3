@@ -175,9 +175,10 @@ public class Election {
         }
     }
     // добавление кандидата в выборы с заданным количеством голосов
-    public void addCandidate(String name, int votes){
-        if(findIndex(name)!=-1) System.out.println("Кандидат уже принимает участие");
+    public void addCandidate(String name, int votes) {
+        if (findIndex(name) != -1) System.out.println("Кандидат уже принимает участие");
         else {
+            if(votes<0)votes=0;
             setlist();
             candidates[count] = new Candidate(name, votes);
             count++;
@@ -204,7 +205,6 @@ public class Election {
             }
             candidates[count-1] = null;
             count--;
-            setlist();
         }
     }
     // добавление голоса кандидату, участвующему в выборах
@@ -216,11 +216,13 @@ public class Election {
         }
     }
     // добавление заданного количества голосов кандидату, участвующему в выборах
-    public void addVotesToCandidate(String name, int votes){
+    public void addVotesToCandidate(String name, int votes) {
         int ind = findIndex(name);
-        if(ind == -1) System.out.println("Кандидат с таким именем не найден");
+        if (ind == -1) System.out.println("Кандидат с таким именем не найден");
         else {
-            candidates[ind].addVotes(votes);
+            if (votes>=0){
+                candidates[ind].addVotes(votes);
+            } else System.out.println("Некорректное количество голосов для добавления");
         }
     }
     // получение голосов кандидата, участвующего в выборах
@@ -241,11 +243,11 @@ public class Election {
         return n;
     }
     // подсчет итогов выборов среди участвующих кандидатов
-    public Candidate getWinnerOfElection(){
-        if(count == 0) return null;
+    public Candidate getWinnerOfElection() {
+        if (count == 0) return null;
         Candidate winner = candidates[0];
         for (int i = 0; i < count; i++) {
-            if(candidates[i].getVotes() > winner.getVotes())winner = candidates[i];
+            if (candidates[i].getVotes() > winner.getVotes()) winner = candidates[i];
         }
         return winner;
     }
@@ -261,9 +263,9 @@ public class Election {
         return candidates[ind].percents(total);
     }
     // вывод таблицы кандидатов с их рейтингом в этих выборах
-    public void coutPercents(){
+    public void coutPercents() {
         int total = getTotalVotes();
-        if(count == 0) System.out.println("Список кандидатов пуст");
+        if (count == 0) System.out.println("Список кандидатов пуст");
         else {
             System.out.println("Результаты выборов:");
             for (int i = 0; i < count; i++) {
@@ -274,10 +276,21 @@ public class Election {
         }
     }
     // удаление кандидатов, участвующих в выборах и не набравших определенного количества голосов
-    public void removeLosers(int needvotes){
+    public void removeLosersVote(int needvotes) {
         int rcount = 0;
-        for (int i = count - 1; i >= 0 ; i--) {
-            if (candidates[i].getVotes() < needvotes){
+        for (int i = count - 1; i >= 0; i--) {
+            if (candidates[i].getVotes() < needvotes) {
+                removeCandidate(candidates[i].getName());
+                rcount++;
+            }
+        }
+        System.out.println("Количество удаленных кандидатов: " + rcount);
+    }
+    //удаление кандидатов, не достигших определенного количества процентов
+    public void removeLosersPercents(double needpercents) {
+        int rcount = 0;
+        for (int i = count - 1; i >= 0; i--) {
+            if (candidates[i].percents(getTotalVotes())*1.0 < needpercents) {
                 removeCandidate(candidates[i].getName());
                 rcount++;
             }
@@ -296,6 +309,7 @@ public class Election {
         }
     }
 }
+
 ```
 > Класс Test
 ```java
