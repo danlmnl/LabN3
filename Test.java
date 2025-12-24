@@ -10,6 +10,7 @@ public class Test {
 
         System.out.println("\nТЕСТ 3 - добавление нового кандидата с заданным числом голосов");
         election.addCandidate("Иванов", 20);
+        election.addCandidate("Бондаренко", 40);
         election.addCandidate("Сидоров", 10);
         election.addCandidate("Сидоров", 10); // повторный кандидат
 
@@ -44,10 +45,14 @@ public class Test {
         election.coutPercents();
 
         System.out.println("\nТЕСТ 13 - удаление кандидатов с малым количеством голосов");
-        election.removeLosers(12);
+        election.removeLosersVote(12);
         election.coutCandidates();
 
-        System.out.println("\nТЕСТ 14 - подсчёт голосов из массива имён");
+        System.out.println("\nТЕСТ 14 - удаление кандидатов с малым количеством голосов но в процентах");
+        election.removeLosersPercents(50);
+        election.coutCandidates();
+
+        System.out.println("\nТЕСТ 15 - подсчёт голосов из массива имён");
         String[] k = new String[3];
         k[0] = "Фетисов";
         k[1] = "Конкина";
